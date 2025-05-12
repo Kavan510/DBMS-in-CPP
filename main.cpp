@@ -9,13 +9,35 @@ void DisplayTokens()
         cout<<x<<",";
 }
 
-void ParseIntoTokens(string token)
+void ParseIntoTokens(string Query)
 {
-    stringstream space(token);
-    string i;
+    // stringstream space(Query);
+    // string i;
 
-    while(getline(space,i,' '))
-        Tokens.push_back(i);
+    // while(getline(space,i,' '))
+    //     Tokens.push_back(i);
+
+    string temp="";
+
+    for(char c:Query)
+    {
+        if(c==' ' || c=='(' || c==')' || c==',' || c==';')
+        {
+            if(temp!="")
+                Tokens.push_back(temp);
+            if(c!=' ')
+                Tokens.push_back(string(1,c));
+            
+            temp = "";
+        }
+        else 
+        {
+            temp += c; 
+        }
+    }
+    if(temp!="")
+        Tokens.push_back(temp);
+
 }
 
 void Execute()
@@ -84,8 +106,8 @@ int main()
         getline(cin,Query);
         
         ParseIntoTokens(Query);
-
-        Execute();  
+        DisplayTokens();
+        // Execute();  
     }
     
     return 0;
