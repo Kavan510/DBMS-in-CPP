@@ -1,0 +1,96 @@
+*Employee*
+<<
+id int
+name varchar 20
+salary decimal 8 2
+>>
+
+*Teacher*
+<<
+id int
+name varchar 30
+addr varchar 50
+phno int
+primary key
+name ;
+>>
+
+
+*nill*    ===   >>>>>>>>>>>>>  // check vala ma satkhu formatting nathi avtu e joi levu 
+<<    
+pk: ;
+roll int
+check roll
+> 0
+name varchar 20
+check name
+!= "ABC"
+dob date
+percent decimal 4 2
+primary key
+roll ;
+
+
+*nill2
+*
+<<
+pk: ;
+( roll
+int check
+( roll
+> 0
+) ,
+name varchar (
+20 )
+check (
+name !=
+"ABC" )
+, dob
+date ,
+percent decimal ( 4
+, 2
+) ,
+primary key
+( roll
+) )
+; 
+>>
+
+*om*
+<<
+pk: )
+( roll
+int check
+( roll
+> 0
+) ,
+name varchar (
+20 )
+check (
+name !=
+"ABC" )
+, dob
+date ,
+percent decimal ( 4
+, 2
+) ,
+primary key
+( roll
+) )
+>>
+
+
+
+*Student*
+<<
+pk: roll
+roll int
+check roll
+> 0
+name varchar 20
+check name
+!= "ABC"
+dob date
+percent decimal 4 2
+>>
+

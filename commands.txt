@@ -1,0 +1,26 @@
+=====> Schema File :
+
+        *Employee*
+        <<
+        id int
+        name varchar 20
+        salary decimal 8 2
+        >>
+
+        *Teacher*
+        <<
+        id int
+        name varchar 30
+        addr varchar 50
+        phno int
+        primary key
+        name ;
+        >>
+
+
+=====> Commands  :
+
+    1. CREATE TABLE:
+
+       create table Employee id int name varchar 20 salary decimal 8 2;
+       create table Teacher id int name varchar 30 addr varchar 50 phno int primary key name;

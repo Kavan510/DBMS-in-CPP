@@ -35,11 +35,14 @@ void CreateTable(vector<string> &Tokens)
         fstream SchemaFile;
         SchemaFile.open("SchemaFile.txt", ios::app);
 
+        // for(auto &it:Tokens) cout<<it<<""
+
         SchemaFile << "*" << Tokens[2] << "*" << endl
                    << "<<" << endl;
-
+        // Tokens.pop_back();
+        SchemaFile << "pk: " << Tokens.back() << endl;
         int i = 3;
-        while (i < Tokens.size())
+        while (i < Tokens.size() - 3)
         {
             SchemaFile << Tokens[i] << " ";
 
@@ -61,6 +64,18 @@ void CreateTable(vector<string> &Tokens)
                 i += 2;
             }
             SchemaFile << endl;
+        }
+        if (Tokens[i] == "check")
+        {
+            SchemaFile << " " << Tokens[i] << " ";
+            SchemaFile << Tokens[i + 1] << " " << Tokens[i + 2] << " " << Tokens[i + 3];
+            i += 4;
+            while (Tokens[i] == "AND" || Tokens[i] == "OR")
+            {
+                SchemaFile << " " << Tokens[i] << " ";
+                SchemaFile << Tokens[i + 1] << " " << Tokens[i + 2] << " " << Tokens[i + 3];
+                i += 4;
+            }
         }
         SchemaFile << ">>" << endl
                    << endl;

@@ -2,115 +2,129 @@
 #include "functions.cpp"
 using namespace std;
 
-vector<string>Tokens;
+vector<string> Tokens;
 
 void DisplayTokens()
 {
-    for(string x:Tokens)
-        cout<<x<<"\n";
+    for (string x : Tokens)
+        cout << x << "\n";
 }
 
 void ParseIntoTokens(string Query)
 {
-    // stringstream space(Query);
-    // string i;
 
-    // while(getline(space,i,' '))
-    //     Tokens.push_back(i);
+    string temp = "";
 
-    string temp="";
-
-    for(char c:Query)
+    for (int i = 0; i < Query.size(); i++)
     {
-        if(c==' ' || c=='(' || c==')' || c==',' || c==';')
+        char c = Query[i];
+
+        if (c == ' ' || c == '(' || c == ')' || c == ',' || c == ';')
         {
-            if(temp!="")
+            if (temp != "")
                 Tokens.push_back(temp);
-            if(c!=' ')
-                Tokens.push_back(string(1,c));
-            
+
             temp = "";
         }
-        else 
+        else if (Query[i] == '!' && Query[i + 1] == '=')
         {
-            temp += c; 
+            if (temp != "")
+                Tokens.push_back(temp);
+            temp = "";
+
+            Tokens.push_back("!=");
+            i++;
+        }
+        else if (c == '<' || c == '>' || c == '=') // OR other operators
+        {
+            if (temp != "")
+                Tokens.push_back(temp);
+            temp = "";
+
+            Tokens.push_back(string(1, c));
+        }
+        else
+        {
+            temp += c;
         }
     }
-    if(temp!="")
+    if (temp != "")
         Tokens.push_back(temp);
-
 }
+
 
 void Execute()
 {
-    if(Tokens.empty()){
-        cout<<"Please enter some commmand"<<endl;
+    if (Tokens.empty())
+    {
+        cout << "Please enter some commmand" << endl;
         return;
     }
-    else if(Tokens[0]=="create" && Tokens[1]=="table") 
+    else if (Tokens[0] == "create" && Tokens[1] == "table")
     {
-         CreateTable(Tokens);
+        CreateTable(Tokens);
     }
-    else if(Tokens[0]=="drop" && Tokens[1]=="table")
+    else if (Tokens[0] == "drop" && Tokens[1] == "table")
     {
-        cout<<"== drop table"<<endl;
+        cout << "== drop table" << endl;
     }
-    else if(Tokens[0]=="describe")
+    else if (Tokens[0] == "describe")
     {
-        cout<<"== describe"<<endl;
+        cout << "== describe" << endl;
     }
-    else if(Tokens[0]=="insert" && Tokens[1]=="into")
+    else if (Tokens[0] == "insert" && Tokens[1] == "into")
     {
-        cout<<"== insert into"<<endl;
+        cout << "== insert into" << endl;
     }
-    
-    else if(Tokens[0]=="delete" && Tokens[1]=="from")
+
+    else if (Tokens[0] == "delete" && Tokens[1] == "from")
     {
-        cout<<"== delete from"<<endl;
+        cout << "== delete from" << endl;
     }
-    else if(Tokens[0]=="update")
+    else if (Tokens[0] == "update")
     {
-        cout<<"== update"<<endl;
+        cout << "== update" << endl;
     }
-    else if(Tokens[0]=="select")
+    else if (Tokens[0] == "select")
     {
-        cout<<"== select table"<<endl;
+        cout << "== select table" << endl;
     }
-    else if(Tokens[0]=="help" && Tokens[1]=="tables")
+    else if (Tokens[0] == "help" && Tokens[1] == "tables")
     {
-        cout<<"== help tables"<<endl;
+        cout << "== help tables" << endl;
     }
-    else if(Tokens[0]=="help")
+    else if (Tokens[0] == "help")
     {
-        cout<<"== help cmd"<<endl;
+        cout << "== help cmd" << endl;
     }
-    else if(Tokens[0]=="quit")
+    else if (Tokens[0] == "quit")
     {
-        cout<<"== quit"<<endl;
+        cout << "== quit" << endl;
         exit(0);
     }
-    else{
-        cout<<"Unrecognized command"<<endl;
+    else
+    {
+        cout << "Unrecognized command" << endl;
     }
-    
 }
 
 int main()
 {
     system("cls");
     string Query;
-    
-    while(1)
-    {
-        Tokens.clear(); 
-        cout<<endl<<">> ";
 
-        getline(cin,Query);
-        
+    while (1)
+    {
+        Tokens.clear();
+        cout << endl
+             << ">> ";
+
+        getline(cin, Query);
+
         ParseIntoTokens(Query);
         // DisplayTokens();
-        Execute();  
+        Execute();
     }
-    
+
     return 0;
 }
