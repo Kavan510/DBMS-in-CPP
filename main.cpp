@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "functions.cpp"
 using namespace std;
 
 vector<string>Tokens;
@@ -6,7 +7,7 @@ vector<string>Tokens;
 void DisplayTokens()
 {
     for(string x:Tokens)
-        cout<<x<<",";
+        cout<<x<<"\n";
 }
 
 void ParseIntoTokens(string Query)
@@ -44,10 +45,11 @@ void Execute()
 {
     if(Tokens.empty()){
         cout<<"Please enter some commmand"<<endl;
+        return;
     }
     else if(Tokens[0]=="create" && Tokens[1]=="table") 
     {
-        cout<<"== create table"<<endl;
+         CreateTable(Tokens);
     }
     else if(Tokens[0]=="drop" && Tokens[1]=="table")
     {
@@ -106,8 +108,8 @@ int main()
         getline(cin,Query);
         
         ParseIntoTokens(Query);
-        DisplayTokens();
-        // Execute();  
+        // DisplayTokens();
+        Execute();  
     }
     
     return 0;
