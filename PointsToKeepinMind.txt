@@ -2,8 +2,9 @@
 
 * command should end with semicolon
 
-* primary key is compulsory
+* defining primary key is compulsory, during create table - if not defined will display error
 
+* We are creating Different Files for different tables
 
 * SCHEMA FILE : 
     - Will contain metadata

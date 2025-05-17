@@ -1,9 +1,4 @@
-*Employee*
-<<
-id int
-name varchar 20
-salary decimal 8 2
->>
+
 
 *Teacher*
 <<
@@ -24,5 +19,14 @@ id int
 name varchar 30
 dob date
 percent decimal 4 2
+>>
+
+*Employee*
+<<
+pk: empId
+empId int
+name varchar 30
+dob date
+salary decimal 7 2
 >>
 

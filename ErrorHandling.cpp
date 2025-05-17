@@ -86,11 +86,12 @@ bool ErrorsChecking(vector<string> &Tokens)
             return false;
         }
 
-        // Other error handling     done in insert function itself.
+        // Other error handling  done in insert function itself.
     }
 
     else if (Tokens[0] == "select")
     {
+         //All errors are handled in Select function itself
     }
 
     else if (Tokens[0] == "help" && Tokens[1] == "tables")
