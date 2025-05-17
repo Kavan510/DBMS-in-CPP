@@ -20,7 +20,34 @@
 
 =====> Commands  :
 
-    1. CREATE TABLE:
+        1. CREATE TABLE:
 
        create table Employee id int name varchar 20 salary decimal 8 2;
        create table Teacher id int name varchar 30 addr varchar 50 phno int primary key name;
+create table Students(roll int check(roll > 0), name varchar(20) check(name!="ABC"), dob date, percent decimal(4,2), primary key(roll));
+
+
+        2.INSERT INTO 
+
+        insert into Students values(100,"Saurabh Yelmame",24-02-2001,88);
+        insert into Students values(101,"Dipak Yadav",20-01-2001,99);
+        insert into Students values(102,"Prathamesh Wavhal",02-07-2001,100);
+        insert into Students values(103,"Shabbir Asgar",28-07-2001,97);
+
+        3. DROP TABLE:
+        
+        drop table Students;
+
+
+        4.HELP
+
+        1. help tables;
+        2. help create;
+
+
+        5. SELECT
+
+        1. select * from Students;
+        2. select id,name,roll from Students;
+        3. select name,id from Students where id>103;
+        4. select id,name from Students where marks>50 and marks<70;

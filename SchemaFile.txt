@@ -15,11 +15,17 @@ primary key
 name ;
 >>
 
+
 *Students*
 <<
-pk: id
-id int
-name varchar 30
+pk: roll
+roll int
+check roll
+> 0
+name varchar 20
+check name
+!= ABC
 dob date
+percent decimal 4 2
 >>
 

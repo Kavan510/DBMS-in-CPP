@@ -33,11 +33,12 @@ void ParseIntoTokens(string Query)
                 Tokens.push_back(temp);
             temp = "";
         }
-        else if (c == ' ' || c == '(' || c == ')' || c == ',' || c == ';')
+        else if (c == ' ' || c == '(' || c == ')' || c == ',' || c == ';' || c == '*')
         {
             if (temp != "")
                 Tokens.push_back(temp);
-
+            if (c == '*') // for handling special case in select
+                Tokens.push_back("*");
             temp = "";
         }
         else if (Query[i] == '!' && Query[i + 1] == '=')
@@ -108,7 +109,7 @@ void Execute()
     }
     else if (Tokens[0] == "select")
     {
-        cout << "== select table" << endl;
+        Select(Tokens);
     }
     else if (Tokens[0] == "help" && Tokens[1] == "tables")
     {
@@ -120,7 +121,7 @@ void Execute()
     }
     else if (Tokens[0] == "quit")
     {
-        cout << "== quit" << endl;
+        cout << "Program terminated successfully." << endl;
         exit(0);
     }
     else
