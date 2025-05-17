@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+#include <regex>
 using namespace std;
 
 void CreateTable(vector<string> &Tokens)
@@ -87,53 +87,53 @@ void CreateTable(vector<string> &Tokens)
 }
 
 void delete_last_line()
-{   
-    ifstream fileIn( "SchemaFile.txt");                   // Open for reading
+{
+    ifstream fileIn("SchemaFile.txt"); // Open for reading
 
-    stringstream buffer;                             // Store contents in a std::string
+    stringstream buffer; // Store contents in a std::string
     buffer << fileIn.rdbuf();
     string contents = buffer.str();
 
     fileIn.close();
-    contents.pop_back();                                  // Remove last character
+    contents.pop_back(); // Remove last character
 
-
-    ofstream fileOut( "SchemaFile.txt" , ios::trunc); // Open for writing (while also clearing file)
-    fileOut << contents;                                  // Output contents with removed character
-    fileOut.close(); 
+    ofstream fileOut("SchemaFile.txt", ios::trunc); // Open for writing (while also clearing file)
+    fileOut << contents;                            // Output contents with removed character
+    fileOut.close();
 }
 
-void DescribeTable(vector<string>&Tokens)
+void DescribeTable(vector<string> &Tokens)
 {
     fstream SchemaFile;
-    SchemaFile.open("SchemaFile.txt",ios::in);
+    SchemaFile.open("SchemaFile.txt", ios::in);
 
-    if(!SchemaFile)
-        {cout<<"Schema File does not exists!"<<endl;return;}
-
-    bool found=false;
-    string line;
-    while(!SchemaFile.eof())
+    if (!SchemaFile)
     {
-        getline(SchemaFile,line);
-        if(line[0]=='*' && line.substr(1,line.size()-2)==Tokens[1])// *Teacher*
+        cout << "Schema File does not exists!" << endl;
+        return;
+    }
+
+    bool found = false;
+    string line;
+    while (!SchemaFile.eof())
+    {
+        getline(SchemaFile, line);
+        if (line[0] == '*' && line.substr(1, line.size() - 2) == Tokens[1]) // *Teacher*
         {
-            getline(SchemaFile,line);
-            while(1)
+            getline(SchemaFile, line);
+            while (1)
             {
-                getline(SchemaFile,line);
-                if(line==">>")
+                getline(SchemaFile, line);
+                if (line == ">>")
                     break;
-                cout<<line<<endl;
+                cout << line << endl;
             }
             found = true;
             break;
         }
-        
     }
-    if(!found)
-        cout<<"<"<<Tokens[1]<<"> Table does not exists"<<endl;
-
+    if (!found)
+        cout << "<" << Tokens[1] << "> Table does not exists" << endl;
 }
 
 int dropTable(vector<string> &Tokens)
@@ -144,7 +144,7 @@ int dropTable(vector<string> &Tokens)
     if (!SchemaFile)
     {
         cout << "Schema File does not exists!" << endl;
-        return;
+        return 0;
     }
 
     fstream temp;
@@ -180,9 +180,96 @@ int dropTable(vector<string> &Tokens)
     rename("temp.txt", "SchemaFile.txt");
 
     delete_last_line();
-
 }
 
+string ExtractCol(string &tuple, int colno) //<223,Kavan Kansodariya,07-10-2004>
+{
+    // tuple = <223,Kavan Kansodariya,07-10-2004>
+    int comma = 0;
+    int i = 1;
+    while (comma < colno)
+    {
+        if (tuple[i] == ',')
+            comma++;
+        i++;
+    }
+
+    string pk = "";
+    while (tuple[i] != ',' && tuple[i] != '>')
+    {
+        pk += tuple[i];
+        i++;
+    }
+    // cout<<"pk: "<<pk<<endl;
+    return pk;
+}
+
+void InsertInto(vector<string> &Tokens)
+{
+    ifstream SchemaFile("SchemaFile.txt");
+    if (!SchemaFile)
+    {
+        cout << "SchemaFile doesn't exists" << endl;
+        return;
+    }
+
+    // 1. Checking whether the table exists in the Schema File or not
+    string line;
+    bool doesExist = false;
+    while (!SchemaFile.eof())
+    {
+        getline(SchemaFile, line);
+        if (line[0] == '*' && line.substr(1, line.size() - 2) == Tokens[2])
+        {
+            doesExist = true;
+            break;
+        }
+    }
+    if (!doesExist) // does not exists
+    {
+        cout << "<" << Tokens[2] << "> table does not exists" << endl;
+        return;
+    }
+
+    // cout<<"Table exists in schema file"<<endl;
+
+    // If control comes here, means the specified table exists in schema file;
+
+    // 1.Checking whether primary key already exists in the table or not
+    fstream table;
+    table.open(Tokens[2] + ".txt", ios::in);
+    string tuple;
+    while (!table.eof())
+    {
+        getline(table, tuple);
+
+        if (Tokens[4] == ExtractCol(tuple, 0)) // 0 means primary key
+        {
+            cout << "PK already exists" << endl;
+            return;
+        }
+    }
+    table.close();
+
+    // 2.If the control comes here, means primary key doesn't exits
+    //   And we can append the tuple;
+    fstream TABLE;
+    TABLE.open(Tokens[2] + ".txt", ios::app);
+    TABLE << "<";
+
+    int i = 4;
+    while (i < Tokens.size() - 1)
+    {
+        TABLE << Tokens[i] << ",";
+        i++;
+    }
+    TABLE << Tokens[i] << ">" << endl;
+
+    TABLE.close();
+    SchemaFile.close();
+
+    cout << "Tuple inserted successfully" << endl;
+}
 
 int updateTable(vector<string> parse)
 {
