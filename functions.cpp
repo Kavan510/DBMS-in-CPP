@@ -2,6 +2,8 @@
 #include <regex>
 using namespace std;
 vector<string> attributes_of_table;
+
+
 bool doesTableExists2(string tableName)
 {
     fstream SchemaFile;
@@ -27,6 +29,9 @@ bool doesTableExists2(string tableName)
         cout << "Schema File doesn't exists" << endl;
     return false;
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 void CreateTable(vector<string> &Tokens)
 {
     // Check whether table with specified name exists in Schema file or not
@@ -111,6 +116,9 @@ void CreateTable(vector<string> &Tokens)
     }
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 void delete_last_line()
 {
     ifstream fileIn("SchemaFile.txt"); // Open for reading
@@ -126,6 +134,9 @@ void delete_last_line()
     fileOut << contents;                            // Output contents with removed character
     fileOut.close();
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 void DescribeTable(vector<string> &Tokens)
 {
@@ -160,6 +171,9 @@ void DescribeTable(vector<string> &Tokens)
     if (!found)
         cout << "<" << Tokens[1] << "> Table does not exists" << endl;
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 int dropTable(vector<string> &Tokens)
 {
@@ -210,6 +224,9 @@ int dropTable(vector<string> &Tokens)
     delete_last_line();
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 bool isInt(string s)
 {
     for (char c : s)
@@ -217,6 +234,9 @@ bool isInt(string s)
             return false;
     return true;
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 int checkValuesOrder(vector<string> &Tokens)
 {
@@ -285,6 +305,10 @@ int checkValuesOrder(vector<string> &Tokens)
     */
     return 1;
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 int Count_no_Attributes(string TableName)
 {
     fstream SchemaFile;
@@ -322,6 +346,9 @@ int Count_no_Attributes(string TableName)
     return 0;
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 string ExtractCol(string &tuple, int colno) //<223,Kavan Kansodariya,07-10-2004>
 {
     // tuple = <223,Kavan Kansodariya,07-10-2004>
@@ -343,6 +370,9 @@ string ExtractCol(string &tuple, int colno) //<223,Kavan Kansodariya,07-10-2004>
     // cout<<"pk: "<<pk<<endl;
     return pk;
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 int InsertInto(vector<string> &Tokens)
 {
@@ -433,6 +463,9 @@ int InsertInto(vector<string> &Tokens)
     return 1;
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 vector<int> Find_Indices(vector<string> &Tokens, vector<string> attributes_of_table)
 {
     vector<int> indices_of_att_in_query;
@@ -450,7 +483,10 @@ vector<int> Find_Indices(vector<string> &Tokens, vector<string> attributes_of_ta
     return indices_of_att_in_query;
 }
 
-void Helper_Select(vector<string> &Tokens, string TableNameInQuery)
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+void Helper_Select(vector<string> &Tokens, string TableNameInQuery, int i)
 {
     // cout<<"Table exists"<<endl;
     if (Tokens[1] == "*")
@@ -540,9 +576,14 @@ void Helper_Select(vector<string> &Tokens, string TableNameInQuery)
     }
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 bool is_Where_True(string tuple, vector<string> &Tokens, int i)
 {
     // i is pointing to Students here;
+    if (i + 1 == Tokens.size())
+        return true;
     i++; // After this inc i will point to where
 
     int index = 0;
@@ -587,6 +628,9 @@ bool is_Where_True(string tuple, vector<string> &Tokens, int i)
     }
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 void Helper_Select_Where(vector<string> &Tokens, string TableNameInQuery, int i)
 {
     if (Tokens[1] == "*")
@@ -614,7 +658,7 @@ void Helper_Select_Where(vector<string> &Tokens, string TableNameInQuery, int i)
             }
         }
         if (!flag)
-            cout << "File doesnot exists!" << endl;
+            cout << "No Records yet" << endl;
     }
 
     else
@@ -642,9 +686,12 @@ void Helper_Select_Where(vector<string> &Tokens, string TableNameInQuery, int i)
             }
         }
         if (!flag)
-            cout << "File doesnot exists!" << endl;
+            cout << "No Records yet" << endl;
     }
 }
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 void FillingAttributesOfTable(string tableName)
 {
@@ -686,6 +733,9 @@ void FillingAttributesOfTable(string tableName)
     }
 }
 
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 void Select(vector<string> &Tokens)
 {
     int i = 0;
@@ -699,28 +749,217 @@ void Select(vector<string> &Tokens)
         if (doesTableExists2(tableName))
         {
             FillingAttributesOfTable(tableName);
-            if (i + 1 == Tokens.size())
-                Helper_Select(Tokens, tableName);
-            else
-                Helper_Select_Where(Tokens, tableName, i); // i is pointing to Students;
+            Helper_Select(Tokens, tableName, i);
         }
         else
             cout << "table <" << tableName << "> table doesn't exists" << endl;
     }
 }
 
-int updateTable(vector<string> parse)
-{
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    return 0;
+
+vector<int> GetIndices(string tableName, map<string, string> mpp)
+{
+    FillingAttributesOfTable(tableName);
+    vector<int> ans;
+
+    for (auto kv = mpp.begin(); kv != mpp.end(); kv++)
+    {
+        int count = 0;
+        for (auto x : attributes_of_table)
+        {
+            // cout<<"attr:"<<x<<"     kv:"<<kv->first<<endl;
+            if (kv->first == x)
+            {
+                ans.push_back(count);
+                break;
+            }
+            count++;
+        }
+    }
+    return ans;
 }
-int selectFromTable(vector<string> parse)
-{
 
-    return 0;
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+vector<string> split(string s, char delim)
+{
+    vector<string> result;
+    stringstream ss(s);
+    string item;
+
+    while (getline(ss, item, delim))
+    {
+        result.push_back(item);
+    }
+
+    return result;
 }
-int deletetFromTable(vector<string> parse)
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+void UpdateTable(vector<string> &Tokens)
+{
+    string tableName = Tokens[1];
+    // Finding position of where in Tokens
+    bool isWhere = false;
+    int i;
+    for (i = 3; i < Tokens.size(); i++)
+    {
+        if (Tokens[i] == "where")
+        {
+            isWhere = true;
+            break;
+        }
+    }
+
+    i--;
+    // Checking if PK is getting updated ..
+    //   if where is not present
+    //   and yes PK is getting updated, then dont update because each record will get same PK.
+
+    fstream SchemaFile;
+    SchemaFile.open("SchemaFile.txt", ios::in);
+
+    // Reading PK from Schema File
+    string PK_fromSchema = "";
+    string line;
+    while (SchemaFile && !SchemaFile.eof())
+    {
+        getline(SchemaFile, line);
+        if (line[0] == '*') //*Students*
+        {
+            if (tableName == line.substr(1, line.size() - 2))
+            {
+                getline(SchemaFile, line); //<<
+                getline(SchemaFile, line); // pk:
+
+                PK_fromSchema = line.substr(4, line.size() - 4);
+                SchemaFile.close();
+                break;
+            }
+        }
+    }
+
+    // Geting Keys and Values from the Tokens
+    map<string, string> mpp;
+    bool flag = true;
+
+    for (int i = 3; i < Tokens.size(); i += 3)
+    {
+        mpp[Tokens[i]] = Tokens[i + 2];
+        // cout<<"map:  "<<Tokens[i] <<" : "<< mpp[Tokens[i]]<<endl;
+    }
+
+    // Checking if PK attribute is being updated or not;
+    for (auto x : mpp)
+        if (x.first == PK_fromSchema)
+        {
+            cout << "Cannot be Updated, same PK would get set" << endl;
+            return;
+        }
+
+    fstream temp;
+    temp.open("temp.txt", ios::out);
+
+    fstream table;
+    table.open(tableName + ".txt", ios::in);
+
+    string tuple;
+    vector<int> indices = GetIndices(tableName, mpp); // indices of keys, which we will be updating
+
+    cout << endl;
+    FillingAttributesOfTable(tableName);
+
+    while (table && !table.eof())
+    {
+        getline(table, tuple);
+        if (tuple.size() == 0)
+            break;
+        vector<string> parsed = split(tuple.substr(1, tuple.size() - 2), ',');
+        if (is_Where_True(tuple, Tokens, i))
+        {
+            for (int index : indices)
+                parsed[index] = mpp[attributes_of_table[index]];
+        }
+        temp << "<";
+        for (auto ele : parsed)
+            temp << ele << ",";
+        temp << ">" << endl;
+    }
+    table.close();
+    temp.close();
+
+    char Tname[30];
+    strcpy(Tname, (Tokens[1] + ".txt").c_str());
+    remove(Tname);
+    rename("temp.txt", Tname);
+}
+
+// >>>>>>>>>>>>>>===========<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+void DeleteFrom(vector<string> &Tokens)
 {
 
-    return 0;
+    // Where Clause not present,
+    // So delete the table itself..
+    // But don't remove its details from the schema file..
+    if (Tokens.size() == 3)
+    {
+        fstream table;
+        table.open(Tokens[2] + ".txt", ios::in);
+        string line;
+        int count = 0;
+        while (table && !table.eof())
+        {
+            getline(table, line);
+            count++;
+        }
+        table.close();
+        cout << count - 1 << " rows affected" << endl;
+        char tableName[30];
+        strcpy(tableName, (Tokens[2] + ".txt").c_str());
+        remove(tableName);
+        return;
+    }
+
+    // if control comes here, means where clause is present
+
+    int originalCount = 0;
+    int duplicateCount = 0;
+
+    FillingAttributesOfTable(Tokens[2]);
+    fstream temp;
+    temp.open("temp.txt", ios::out);
+
+    fstream table;
+    table.open(Tokens[2] + ".txt", ios::in);
+
+    string tuple;
+
+    while (table && !table.eof())
+    {
+        getline(table, tuple);
+        if (tuple.size() == 0)
+            break;
+        originalCount++;
+        if (!is_Where_True(tuple, Tokens, 2))
+        {
+            temp << tuple << endl;
+            duplicateCount++;
+        }
+    }
+    table.close();
+    temp.close();
+
+    char tableName[30];
+    strcpy(tableName, (Tokens[2] + ".txt").c_str());
+    remove(tableName);
+    rename("temp.txt", tableName);
+
+    cout << originalCount - duplicateCount << " rows affected" << endl;
 }

@@ -5,6 +5,29 @@
 
 using namespace std;
 
+set<string> keywords = {
+    "create",
+    "table",
+    "primary",
+    "key",
+    "int",
+    "varchar",
+    "date",
+    "decimal"
+    "drop",
+    "describe",
+    "insert",
+    "into",
+    "values",
+    "help",
+    "tables",
+    "select",
+    "from",
+    "where",
+    "and",
+    "or",
+};
+
 vector<string> Tokens;
 
 void DisplayTokens()
@@ -105,11 +128,11 @@ void Execute()
 
     else if (Tokens[0] == "delete" && Tokens[1] == "from")
     {
-        cout << "== delete from" << endl;
+        DeleteFrom(Tokens);
     }
     else if (Tokens[0] == "update")
     {
-        cout << "== update" << endl;
+        UpdateTable(Tokens);
     }
     else if (Tokens[0] == "select")
     {
@@ -134,6 +157,17 @@ void Execute()
     }
 }
 
+void cvtIntoSmallerCase()
+{
+    for (int i = 0; i < Tokens.size(); i++)
+    {
+        string x = Tokens[i];
+        transform(x.begin(), x.end(), x.begin(), ::tolower);
+        if (keywords.find(x) != keywords.end())
+            Tokens[i] = x;
+    }
+}
+
 int main()
 {
     system("cls");
@@ -143,7 +177,8 @@ int main()
     {
         Tokens.clear();
         attributes_of_table.clear();
-        cout << endl << ">> ";
+        cout << endl
+             << ">> ";
 
         getline(cin, Query);
         cout << endl;
@@ -154,6 +189,7 @@ int main()
             continue;
         }
         ParseIntoTokens(Query);
+        cvtIntoSmallerCase();
         // DisplayTokens();
         bool noerrors = ErrorsChecking(Tokens);
 

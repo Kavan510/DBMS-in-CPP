@@ -86,7 +86,7 @@ bool ErrorsChecking(vector<string> &Tokens)
             return false;
         }
 
-        // Other error handling remaining
+        // Other error handling     done in insert function itself.
     }
 
     else if (Tokens[0] == "select")
@@ -103,9 +103,21 @@ bool ErrorsChecking(vector<string> &Tokens)
 
     else if (Tokens[0] == "delete" && Tokens[1] == "from")
     {
+         if(!doesTableExists(Tokens[2]))
+        {   
+            cout<<"table <"<<Tokens[2]<<"> doesn't exists"<<endl; 
+            cout<<"0 rows affected"<<endl;
+            return false;
+        }
     }
     else if (Tokens[0] == "update")
     {
+         if(!doesTableExists(Tokens[1]))
+        {   
+            cout<<"table <"<<Tokens[1]<<"> doesn't exists"<<endl; 
+            cout<<"0 rows affected"<<endl;
+            return false;
+        }
     }
     else if (Tokens[0] == "quit")
     {

@@ -66,3 +66,6 @@ create table Students(roll int check(roll > 0), name varchar(20) check(name!="AB
                   select name,id from Students where id!=103;
                 4.help create;
                 5.describe Students;
+                
+                6. delete from Students where id=104;
+                7. update Students set percent=100,name="zz";
