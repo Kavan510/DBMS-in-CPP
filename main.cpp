@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "functions.cpp"
+#include "HelpCommands.cpp"
 using namespace std;
 
 vector<string> Tokens;
@@ -52,7 +53,6 @@ void ParseIntoTokens(string Query)
         Tokens.push_back(temp);
 }
 
-
 void Execute()
 {
     if (Tokens.empty())
@@ -66,11 +66,19 @@ void Execute()
     }
     else if (Tokens[0] == "drop" && Tokens[1] == "table")
     {
-        cout << "== drop table" << endl;
+        dropTable(Tokens);
     }
     else if (Tokens[0] == "describe")
     {
-        cout << "== describe" << endl;
+        DescribeTable(Tokens);
+    }
+    else if (Tokens[0] == "help" && Tokens[1] == "tables")
+    {
+        HelpTables();
+    }
+    else if (Tokens[0] == "help")
+    {
+        HelpCommand(Tokens);
     }
     else if (Tokens[0] == "insert" && Tokens[1] == "into")
     {
