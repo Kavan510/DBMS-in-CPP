@@ -35,7 +35,7 @@ create table Students(roll int check(roll > 0), name varchar(20) check(name!="AB
         insert into Students values(103,"Shabbir Asgar",28-07-2001,97);
 
         3. DROP TABLE:
-        
+
         drop table Students;
 
 
@@ -51,3 +51,18 @@ create table Students(roll int check(roll > 0), name varchar(20) check(name!="AB
         2. select id,name,roll from Students;
         3. select name,id from Students where id>103;
         4. select id,name from Students where marks>50 and marks<70;
+
+
+         Commands for testing : 
+            VALID commands :
+                1. create table Students(id int,name varchar(30),dob date, percent decimal(4,2),primary key(id));
+                2.insert into Students values(100,"S Y",24-02-2001,66.3);
+                  insert into Students values(101,"K K",24-02-2001,33.9);
+                  insert into Students values(102,"R J",24-02-2001,88.2);
+                  insert into Students values(103,"S S",24-02-2001,92.4);
+                  insert into Students values(104,"I J",24-02-2001,76.8);
+                  insert into Students values(105,"A K",24-02-2001,57.4);
+                3.select * from Students;
+                  select name,id from Students where id!=103;
+                4.help create;
+                5.describe Students;

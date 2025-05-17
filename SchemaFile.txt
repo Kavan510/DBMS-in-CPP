@@ -16,15 +16,12 @@ name ;
 >>
 
 
+
 *Students*
 <<
-pk: roll
-roll int
-check roll
-> 0
-name varchar 20
-check name
-!= ABC
+pk: id
+id int
+name varchar 30
 dob date
 percent decimal 4 2
 >>

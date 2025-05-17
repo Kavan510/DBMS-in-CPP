@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 #include "functions.cpp"
 #include "HelpCommands.cpp"
+#include "ErrorHandling.cpp"
+
 using namespace std;
 
 vector<string> Tokens;
@@ -96,7 +98,9 @@ void Execute()
     }
     else if (Tokens[0] == "insert" && Tokens[1] == "into")
     {
-        InsertInto(Tokens);
+        // InsertInto(Tokens);
+        int res = InsertInto(Tokens);
+        res == 1 ? cout << "Tuple inserted successfully" << endl : cout << "Tuple not inserted" << endl;
     }
 
     else if (Tokens[0] == "delete" && Tokens[1] == "from")
@@ -138,14 +142,23 @@ int main()
     while (1)
     {
         Tokens.clear();
-        cout << endl
-             << ">> ";
+        attributes_of_table.clear();
+        cout << endl << ">> ";
 
         getline(cin, Query);
+        cout << endl;
 
+        if (Query.back() != ';')
+        {
+            cout << "; missing at the end" << endl;
+            continue;
+        }
         ParseIntoTokens(Query);
         // DisplayTokens();
-        Execute();
+        bool noerrors = ErrorsChecking(Tokens);
+
+        if (noerrors)
+            Execute();
     }
 
     return 0;
