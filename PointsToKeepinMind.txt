@@ -6,18 +6,5 @@
 
 * We are creating Different Files for different tables
 
-* SCHEMA FILE : 
-    - Will contain metadata
 
-    - ###
-      Students
-      rollno int
-      name varchar
-      ###
-      Teacher
-      id int
-      ###
-
-
-* Commands  :
 

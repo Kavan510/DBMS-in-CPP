@@ -1,25 +1,5 @@
 
 
-*Teacher*
-<<
-id int
-name varchar 30
-addr varchar 50
-phno int
-primary key
-name ;
->>
-
-
-
-*Students*
-<<
-pk: id
-id int
-name varchar 30
-dob date
-percent decimal 4 2
->>
 
 *Employee*
 <<

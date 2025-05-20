@@ -105,7 +105,7 @@ void Execute()
     }
     else if (Tokens[0] == "drop" && Tokens[1] == "table")
     {
-        dropTable(Tokens);
+        DropTable(Tokens);
     }
     else if (Tokens[0] == "describe")
     {
@@ -123,7 +123,7 @@ void Execute()
     {
         // InsertInto(Tokens);
         int res = InsertInto(Tokens);
-        res == 1 ? cout << "Tuple inserted successfully" << endl : cout << "Tuple not inserted" << endl;
+        if(res == 0)  cout << "Tuple not inserted" << endl;
     }
 
     else if (Tokens[0] == "delete" && Tokens[1] == "from")
